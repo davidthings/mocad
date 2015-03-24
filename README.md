@@ -32,6 +32,8 @@ A prequisite to using **Mocad** is the installation of OpenSCAD.  OpenSCAD is av
 
 With OpenSCAD installed, one can either download this repository's zip, or clone just clone it.
 
+```git clone https://github.com/davidthings/mocad.git```
+
 OpenSCAD will function on relatively modest machines, however, to load large arrays of files - such as some of the Mocad Part Library index files, higher end machines may be required.  One hint should always be born in mind - text labels are quite complex graphically.  A scene that won't function at all on a particular machine may work just fine with text turned off.
 
 To do this, set ```moText = false``` in ```mo/mo.scad```
