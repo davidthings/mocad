@@ -48,14 +48,15 @@ Mocad can also help in other domains.  Here is a layout of a project using Adafr
 
 ## Mocad Operation
 
-Mocad as a system that promotes part reuse works by pairing the definition of parts
-with **Positions**.  This is similar to the concept of **Connector** expressed in other libraries.
-
-**Positions** are exactly compatible with many of these other libraries.
+Mocad promotes part reuse by pairing the definition of parts with **Positions**.  This is similar to the concept of **Connector** expressed in other libraries, in fact Mocad **Positions** are exactly compatible with mechanisms used in many of these other libraries.
 
 The way to use Mocad is to load a part then decide which Positions are important and start connecting!
 
-First, in OpenSCAD, tell your code where to find the part:
+First, you can find parts by loading one of the part indexes.  Each part libray has a visual index which shows parts and their names. Here is a closeup of the Actobotics library.
+
+![](images/actIndex_detail.png)
+
+Find your part and note the name.  In your code, just add the line to pull the part in:
 
 ```
 use <../actobotics/actMotorMountClamping37.scad>
@@ -71,7 +72,7 @@ You'll then be able to see and play with the part, noting in particular where th
 
 ![](images/actobotics_motor_clamp.png)
 
-Let's connect this part up to something else.  We'll load in one of the smaller channels, and check it out.
+Let's connect this part up to something else.  We'll load in one of the smaller channels, and take a look.
 
 ![](images/actobotics_channel_3.png)
 
@@ -108,6 +109,21 @@ moAttach( 0,                                               // origin
   actMotorMountClamping37(  );
 ```  
 So in a few short lines, and with zero prior knowledge of the parts, we can be building things.
+
+We can easily add the screws that would secure these together with another few lines:
+
+```
+use <../mocad/moSocketHeadCapScrew6_32.scad>
+```
+```
+moAttach( 0, actAluminumChannel3_0Position( [ 2, 5, 22 ] ) )
+  moSocketHeadCapScrew6_32( );
+
+moAttach( 0, actAluminumChannel3_0Position( [ 2, 5, 26 ] ) )
+  moSocketHeadCapScrew6_32( );
+```
+
+![](images/clamp_channel_closeup_screws.png)
 
 To illustrate further, here's a small part of the Actobotics 3 Wheel Robot Kit depicted above.  It connects the wheel to the motor, then the motor to the clamp:
 
