@@ -37,10 +37,12 @@ It is suggested that the [org name] that names the directory be rather complete 
 "adafruit" rather than an abbreviation "ad" or "a"), and that all parts be named with
 an appropriate short prefix.  Mocad parts, for example, are preceded with "mo".  This is to reduce the likelihood of name clashes.
 
-An optional service to parts library users is to present the provided components
-in an index.  This can be modeled off the index in the ```mocad``` directory or any other.  Mostly, it loads all the part from a single organization and presents them with a name label.
+When you build parts or your own projects, if you do it in a directory off the top of the project (i.e. in ```./myProject```) all references to parts will match those in the rest of the system, popping up a directory, to the project root, then dropping down into a new one for the part.  For example ```../mocad/moShaft.scad``` works everywhere in this scheme.
 
-The top level index contains a meta index of all the part libraries.
+An optional service to parts library users is to present the provided components
+in an index.  This can be modeled off the index in the ```mocad``` directory (called ```moIndex.scad``` or any other.  Mostly, it should load all the parts from a single organization and present them along with a name label.
+
+The top level index (```./index.scad```) contains a meta index of all the part libraries.
 
 # Parts
 
@@ -60,18 +62,46 @@ Parts may also permit the following
 - the use of the ```info``` parameter to request part positions be shown
 - the use of the ```$name``` parameter to request a name label be created to identify the part.
 
-So, in our ```moShaft``` example, we might invoke a ```moShaft``` as follows:
+So, in our ```moShaft``` example, we might create a ```moShaft``` as follows:
 
 ```moShaft( 1, info = true, $name = true );```
 
-In addition, parts *may* also be accompanied by a function to enable the retrieval of positions.  It would be in the form ```[part name]Position( p )``` where p is an
-appropriate position reference.  
+Which would create a ```moShaft```, pre-orient it so that Position ```1``` is at the origin. Position labels will be visible and the part will be named.
 
-Position references may be single integers, or arrays of integers.
+In addition, parts may also be accompanied by a function to enable the retrieval of Positions.  It should be in the form ```[part name]Position( p )``` where p is an
+appropriate Position Reference.  
+
+Position References may be single integers, or arrays of integers.
 
 ```moShaftPosition( p )``` would return a position in response to the integers 0, 1, or 2.
 
-When a part file is invoked by itself (i.e. not as a ```use< >``` in another file) OpenSCAD will run any module invocations.  It will not do so if "used" by another file.  This means that if you invoke the part you define in a file, it will magically appear if someone opens the file.  When you invoke it, request ```info = true``` and ```$name = true``` to be maximally helpful.
+When a part file is invoked by itself (i.e. not as a ```use< >``` in another file) OpenSCAD will run any module invocations it has.  It will not do so if "used" by another file.  This means that if you invoke the part you define in a file, it will magically appear if someone opens the file.  When you invoke it, request ```info = true``` and ```$name = true``` to be maximally helpful.
+
+This feature is very helpful.  It lets people browse parts, getting a close look at how they are intended to be used, what positions they define and how they are constructed without having to modify any code.
+
+In summary, part files will have the following structure,
+
+moPart.scad
+```
+// include the core Mocad functionality
+include <../mo/mo.scad>
+
+...
+
+// define the part module itself
+module moPart( position = 0, info = false, $name = false ) {
+
+  ...
+
+}
+
+// define the Position function
+function moPartPosition( p = 0 ) = ...
+
+// add a call to the defined module to create an instance.
+// this will only be run when the file is opened directly in OpenSCAD
+moPart( 0, info = true, $name = true );
+```
 
 # Mocad Functions and Modules
 
@@ -93,6 +123,8 @@ moText = true;
 ```
 
 ## Colors
+
+Colors are defined as RGB arrays.
 
 ```
 Steel = [0.65, 0.67, 0.72];
@@ -119,8 +151,11 @@ Positions are 3-element arrays:
 ```
 [ [ x, y, z], [vx, vy, vz], a ]
 ```
-They represent a rotation of a degrees about the vx, vy, vz axis, which must normalized (i.e. have
-length 1)
+They represent a rotation of ```a``` degrees about the ```vx, vy, vz``` axis, followed by a translation of ```[ x, y, z ]```.
+
+Note that even when there is a zero rotation angle, the axis vector (```vx, vy, vz```) must have a length of 1.  
+
+Combining rotations can get numerically complicated, so it's best to stick with performing one at a time when definining them.
 
 ## Position Constants
 
@@ -144,14 +179,18 @@ function moRollPosition( a = 90 ) = [ [ 0, 0, 0 ], [ 0, 1, 0 ], a ];
 function moPitchPosition( a = 90 ) = [ [ 0, 0, 0 ], [ 1, 0, 0 ], a ];
 ```
 
-The next assist with linear motion
+You can use these in movement operations to make quick adjustments to part orientations.
+
+The next set of functions assist with linear motion
 
 ```
 function moLinearPosition( y = 1 * in ) = [ [ 0, y, 0 ], [ 1, 0, 0 ], 0 ];
 function moTranslationPosition( x, y, z ) = [ [ x, y, z ], [0, 0, 1], 0 ];
 ```
 
-This function inverts a Position (undoes what it would do)
+These can be used to nudge a part off its attach point, if necessary.
+
+The next function inverts a Position (undoes what it would do)
 
 ```
 function moInvertPosition( position = 0 ) = moCombinePositions(
@@ -159,8 +198,9 @@ function moInvertPosition( position = 0 ) = moCombinePositions(
             [-position[0],[0,0,1],0] );
 ```
 
-And this one returns true or false depending on whether the provided value is a legal non
-identity position
+This is a critical operation when seeking to move a part to one of its own Positions.
+
+The next function returns true or false depending on whether the provided value is a legal non identity position.  This function is used internally to reduce math workload.
 
 ```
 function moIsIdentityPosition( p = 0 ) = ( ( p == 0 ) ?
@@ -168,16 +208,46 @@ function moIsIdentityPosition( p = 0 ) = ( ( p == 0 ) ?
                                             ( p[0][0]==0&&p[0][1]==0&&p[0][2]==0&&p[2]==0) );
 ```
 
-
 ## More Complex Position Functions
 
 ```moMoveTo( p )``` - move the child graphics to the position specified
+
+For example:
+
+```
+moMoveTo( moNewPosition )
+   moPart();
+```
+
+Creates a ```moPart``` and moves and re-orients it to moNewPosition
+
+```moAttach( base, basePosition, joint, partPosition )``` - attached the child graphics part to the base location / basePosition with the specified joint (i.e. nothing, or moFlipPosition, or some other).  The value zero is read as a no-operation - ignore.
+
+For example:
+
+```
+moAttach( moBasePosition, 0, moFlipPosition, 0 )
+  moPart();
+```
+Creates a ```moPart``` and attaches it to the origin position at ```moBasePosition``` after flipping it over.
+
+```
+moAttach( moBaseOrigin,
+          moBasePosition( 5 ),
+          moMoveToPosition( moFlipPosition, moLinearPosition( 10 ) ),
+          moPartPosition( [ 10, 5 ] ) )
+  moPart();
+```
+
+Creates a ```moPart```, orients it to its own Position reference ```[ 10, 5 ]```, attaches it to the ```moBase``` Position reference ```5``` which is at ```moBaseOrigin```, flipping it, and moving it along the axis of the connection 10mm.
 
 ```moMoveToPosition( base, position )``` - takes the base position, applies the position
 argument to it and returns the new value.
 
 ```moMoveToPositions( positionArray )``` - takes the array of positions supplied and
  returns the net effect of them all applied in sequence.
+
+```moAttachPosition( base, basePosition, joint, partPosition )``` - takes the base positon, a reference to a Position on the base object, incorporates any joint connection and if necessary re-orients the part location to a specified position and returns the net position.
 
 ## General Helpers
 
