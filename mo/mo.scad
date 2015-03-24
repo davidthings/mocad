@@ -3,12 +3,8 @@
 // Constants
 //
 
-// Show internal detail by default
-$internalDetail = true;
-
 // text active
 // turn this off if performance is an issue on your machine
-
 moText = true;
 
 // Keeping the polygonization reasonable
@@ -42,46 +38,6 @@ Green = [ 0, 1 ,0 ];
 //
 //  Public Interface
 //
-//  Functions/Modules beginning with "q"
-//
-
-//
-// General Placement Helpers
-//
-
-module moTransparent() {
-  color( [ 1, 1, 1, 0.2 ] )
-    children();
-}
-
-// Quick Rotations
-
-module moPitch( direction = 1 ) {
-  rotate([ direction*90, 0, 0 ])
-    children();
-}
-
-module moYaw( direction = 1 ) {
-  rotate([ 0, 0, direction*90 ])
-    children();
-}
-
-module moFlip(  ) {
-  rotate([ 0, 0, 180 ])
-    children();
-}
-
-module moRoll( direction = 1 ) {
-  rotate([ 0, direction*90, 0 ])
-    children();
-}
-
-// Quick rotate and translate
-module moPose( r = [ 0, 0, 0], t = [ 0, 0, 0 ] ) {
-  translate( t )
-    rotate( r )
-      children();
-}
 
 //
 // Position-Based Placement Helpers
@@ -309,6 +265,40 @@ function moCombinePositions_inner1( base, part, baseQuat ) = moCombinePositions_
 
 
 //
+// General Placement Helpers
+//
+
+// Quick Rotations
+
+module moPitch( direction = 1 ) {
+  rotate([ direction*90, 0, 0 ])
+    children();
+}
+
+module moYaw( direction = 1 ) {
+  rotate([ 0, 0, direction*90 ])
+    children();
+}
+
+module moFlip(  ) {
+  rotate([ 0, 0, 180 ])
+    children();
+}
+
+module moRoll( direction = 1 ) {
+  rotate([ 0, direction*90, 0 ])
+    children();
+}
+
+// Quick rotate and translate
+module moPose( r = [ 0, 0, 0], t = [ 0, 0, 0 ] ) {
+  translate( t )
+    rotate( r )
+      children();
+}
+
+
+//
 //
 // Local functions - not designed to be used by external code
 //
@@ -355,7 +345,7 @@ module moLabel( text = "", lh = 1 * in, ld =  0.1 * in, textColor = [ 0.5, 0.5, 
           scale( [ 1, 1, 0.1 ] )
             if ( moText )
               text( text, font = "Liberation Mono", size = lh, s = ld * 10, halign="center" );
-            else 
+            else
               ;
-              
+
 }
