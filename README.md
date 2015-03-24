@@ -10,11 +10,11 @@ With **Mocad** and OpenSCAD, in a few lines of code, you can build complex mecha
 
 ![](doc/images/actobotics_bevel_gear_mechanism.png)
 
-In **Mocad**, Parts can be made in a variety of different styles, but what they share in common is that they also describe various positions of interest.
+In **Mocad**, Parts can be made in a variety of different styles, but what they share in common is that they also describe points of interest - locations and orientations - called **Positions**.
 
 ![](doc/images/actobotics_clamp_hub.png)
 
-These **Positions** can be manipulated, to connect parts together and to perform other calculations.
+These **Positions** can be manipulated, used to connect parts together and to perform other calculations.
 
 ## Audience
 
