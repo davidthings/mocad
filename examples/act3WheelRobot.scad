@@ -118,7 +118,7 @@ module act3WheelBot() {
     act3WheelCastor();
 
   driveChannelLeft = actAluminumChannel12Position( [ 14, 2, 0 ] );
-  moAttach( driveChannel, driveChannelLeft, moFlipPosition )
+!  moAttach( driveChannel, driveChannelLeft, moFlipPosition )
     act3WheelDriveMotor( left = true );
 
   driveChannelRight = actAluminumChannel12Position( [ 0, 2, 0 ] );

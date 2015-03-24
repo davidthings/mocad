@@ -62,7 +62,7 @@ Find your part and note the name.  In your code, just add the line to pull the p
 use <../actobotics/actMotorMountClamping37.scad>
 ```
 
-Then just make one of them, passing in parameters to turn the postion information on.  Here we also request the part name.
+Then just make one of them, passing in parameters to turn the position information on.  Here we also request the part name.
 
 ```
 actMotorMountClamping37( info = true, $name = true  );
@@ -201,7 +201,7 @@ difference() {
 
 ![](images/actobotics_drive_motor_assembly_cutaway.png)
 
-While we're showing code: here's the code for the intersection example above:
+While we're showing code: here's the code for the intersection of the Actobotics motor and 1.5" channel example above:
 
 Regular drawing code:
 ```
