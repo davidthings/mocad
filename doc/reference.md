@@ -13,6 +13,8 @@ this is the minimal Mocad requirement
 
 ```./tutorial/``` - contains the tutorial
 
+```./examples/``` - contains example files of varying completeness, correctness and interest.
+
 ```./[organization name ]/``` contains the parts from the specified organization
 
 Parts directories should contain files named exactly as the parts they define so that from
@@ -28,6 +30,18 @@ For example, using
 Allows me to create a shaft as follows:
 
 ``` moShaft(); ```
+
+This allows people to only have to worry about one name, not one for the part and
+one for the file.
+
+It is suggested that the [org name] that names the directory be rather complete (like
+"adafruit" rather than an abbreviation "ad" or "a"), and that all parts be named with
+an appropriate prefix.  Mocad parts, for example, are preceded with "mo".
+
+An optional service to parts library users is to present the provided components
+in index.  This can be modeled off the index in the ```mocad``` directory or any other.
+
+The top level index contains a meta index of all the parts.
 
 # Parts
 
@@ -57,6 +71,8 @@ appropriate position reference.
 Position references may be single integers, or arrays of integers.
 
 ```moShaftPosition( p )``` would return a position in response to the integers 0, 1, or 2.
+
+When a part file is invoked by itself (i.e. not as a ```use< >``` in another file) OpenSCAD will run any module invocations.  It will not do so if "used" by another file.  This means that if you invoke the part you define in a file, it will magically appear if someone opens the file.  When you invoke it, request ```info = true``` and ```$name = true``` to be maximally helpful. 
 
 # Mocad Functions and Modules
 
