@@ -72,17 +72,26 @@ Position references may be single integers, or arrays of integers.
 
 ```moShaftPosition( p )``` would return a position in response to the integers 0, 1, or 2.
 
-When a part file is invoked by itself (i.e. not as a ```use< >``` in another file) OpenSCAD will run any module invocations.  It will not do so if "used" by another file.  This means that if you invoke the part you define in a file, it will magically appear if someone opens the file.  When you invoke it, request ```info = true``` and ```$name = true``` to be maximally helpful. 
+When a part file is invoked by itself (i.e. not as a ```use< >``` in another file) OpenSCAD will run any module invocations.  It will not do so if "used" by another file.  This means that if you invoke the part you define in a file, it will magically appear if someone opens the file.  When you invoke it, request ```info = true``` and ```$name = true``` to be maximally helpful.
 
 # Mocad Functions and Modules
 
 ## Constants
 
-|**Name**|Default Value|Meaning|
-|-|-|-|
-|**moText**|true|Whether text is rendered or not|
-|**$fa**|12|minimum angle to be rendered|
-|**$fs**|0.1|minimum size to be rendered|
+OpenSCAD is dimensionless.  By convention, we'll say all dimensions are in millimeters.
+
+To obtain inches, multiply distances by the constant ```in```.  For completeness there
+is also a `mm` constant.
+
+```
+in = 25.4
+mm = 1;
+```
+
+Turn ```moText``` off if text seems to be killing performance on your machine.
+```
+moText = true;
+```
 
 ## Colors
 
