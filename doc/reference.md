@@ -7,17 +7,17 @@ The directory structure is as follows:
 ```./mo/``` - contains the intrinsic Mocad files (```mo.scad```, and its dependencies)
 this is the minimal Mocad requirement
 
-```./mocad/``` - contains the Mocad part library
-
 ```./doc/``` - contains the Reference and the User Guide
 
 ```./tutorial/``` - contains the tutorial
 
 ```./examples/``` - contains example files of varying completeness, correctness and interest.
 
+```./mocad/``` - contains the Mocad part library
+
 ```./[organization name ]/``` contains the parts from the specified organization
 
-Parts directories should contain files named exactly as the parts they define so that from
+Parts directories should contain files named exactly as the parts they define, so that from
 
 ```use <../[org name]/[part name].scad>```
 
@@ -27,27 +27,26 @@ For example, using
 
 ```use <../mocad/moShaft.scad>```
 
-Allows me to create a shaft as follows:
+Allows the creation of a shaft as follows:
 
 ``` moShaft(); ```
 
-This allows people to only have to worry about one name, not one for the part and
-one for the file.
+This lets people worry about only one name, not one for the part and one for the file.
 
 It is suggested that the [org name] that names the directory be rather complete (like
 "adafruit" rather than an abbreviation "ad" or "a"), and that all parts be named with
-an appropriate prefix.  Mocad parts, for example, are preceded with "mo".
+an appropriate short prefix.  Mocad parts, for example, are preceded with "mo".  This is to reduce the likelihood of name clashes.
 
 An optional service to parts library users is to present the provided components
-in index.  This can be modeled off the index in the ```mocad``` directory or any other.
+in an index.  This can be modeled off the index in the ```mocad``` directory or any other.  Mostly, it loads all the part from a single organization and presents them with a name label.
 
-The top level index contains a meta index of all the parts.
+The top level index contains a meta index of all the part libraries.
 
 # Parts
 
 Parts are presented in files named identically, as specified above.
 
-So, as above, bringing moShaft.scad in...
+So, as above, bringing ```moShaft.scad``` in...
 
 ```use <../mocad/moShaft.scad>```
 
@@ -61,7 +60,7 @@ Parts may also permit the following
 - the use of the ```info``` parameter to request part positions be shown
 - the use of the ```$name``` parameter to request a name label be created to identify the part.
 
-So, in our moShaft example, we might invoke a moShaft as follows:
+So, in our ```moShaft``` example, we might invoke a ```moShaft``` as follows:
 
 ```moShaft( 1, info = true, $name = true );```
 

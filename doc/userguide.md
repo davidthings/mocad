@@ -56,7 +56,7 @@ Mocad promotes part reuse by pairing the definition of parts with **Positions**.
 
 The way to use Mocad is to load a part then decide which Positions are important and start connecting!
 
-First, you can find parts by loading one of the part indexes.  Each part libray has a visual index which shows parts and their names. Here is a closeup of the Actobotics library.
+First, you can find parts by loading one of the part indexes.  Each part library has a visual index which shows parts and their names. Here is a closeup of the Actobotics library.
 
 ![](images/actIndex_detail.png)
 
