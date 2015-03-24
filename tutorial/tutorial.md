@@ -6,9 +6,9 @@
 
 ### Step 1
 
-In what follows, we'll take a quick tour of selected parts of OpenSCAD, then Mocad's internals.  If you're an OpenSCAD expert you might want to skip to Chapter 5 which is where the meat of the Mocad Library is introduced.
+In what follows, we'll take a quick tour of selected parts of OpenSCAD, then more deeply into Mocad's internals.  If you're an OpenSCAD expert you might want to skip to Chapter 5 which is where the meat of the Mocad Library is introduced.
 
-The OpenSCAD documentation is excellent - here's their handy cheat sheet.  http://www.openscad.org/cheatsheet/index.html  There is a lot to OpenSCAD, it's unlike most other languages you may have learned.  Please see any of the many good tutorials to learn about it.
+The OpenSCAD documentation is excellent - here's their handy cheat sheet.  http://www.openscad.org/cheatsheet/index.html  You might want to consult it from time to time.
 
 Let's start by creating some geometry!  A cube is a good place to start.  Here the cube dimensions are specified in an array - ```[ xSize, ySize, zSize ]```.  The other parameter requests that rather than locating the cube with one corner at the origin, the cube should be centered.
 
@@ -19,7 +19,7 @@ cube( [ 16, 16, 16 ], center = true );
 
 The default color of the object depends on the Color Scheme selected.
 
-There are many modifiers that can be added before the graphics primitives to change their location, color etc.  ```translate``` moves the whole stack beneath the specified distances (again, ```[x, y, z]```).
+There are many modifiers that can be added before the graphics primitives to change their location, color etc. For example, ```translate( )``` moves the whole stack beneath the specified distance (again, as ```[x, y, z]```).
 
 ```
 translate( [ 0, 64, 0 ] )
@@ -29,7 +29,7 @@ translate( [ 0, 64, 0 ] )
 
 ![]( images/chapter1_1_b.png)
 
-```rotate``` rotates the whole thing by the angles specified ```[ xaxis, yaxis, zaxis ]```.
+The module ```rotate( )``` rotates the whole thing by the angles specified ```[ xaxis, yaxis, zaxis ]```.
 
 ```
 translate( [ 0, -64, 0 ] )
@@ -71,7 +71,7 @@ for ( i = [ 0 : 20 : 360 ] )
 Modules may also perform operations on graphics created beneath them.  Just is just
 the same as ```translate( )```, for example, which operates on its children graphics.
 
-Here we define a module called ```Encircle``` which does exactly what the for-loop above
+Here we define a module called ```Encircle``` which does exactly what the ```for``` loop above
 does, except does it in a modular way to any graphics defined beneath it
 
 ```
@@ -111,7 +111,7 @@ moLogo();
 Sometimes the basic geometry for a part is already available in STL form.
 
 STL geometry can be imported using the import statement.  Here, for example,
-we import the robot from Make Magazine.
+we import the robot from Make Magazine's 3D printer test suite.
 
 ```
 color( Red )
@@ -136,8 +136,8 @@ Of greater help, are the graphical debugging tools:
 
 ![]( images/chapter2.png)
 
-In order to get the feel of how more complex things are built, we consider a series of
-contructions.
+In order to get the feel of how more complex things are built, we consider a series of incremental
+constructions.
 
 ### Step 1
 
@@ -171,7 +171,7 @@ Ball();
 
 ### Step 2
 
-To build structures we place graphics, then offset that newly created graphics and make more.
+To build structures, we place graphics, then offset those graphics and make more.
 
 Here we create a ```Ball```, then move it off a little (half the stick height) to make room for the next thing -
 in this case, a ```Stick```
@@ -203,9 +203,8 @@ rotate( [ -45, 0, 0 ] ) {
 
 ### Step 4
 
-And we can end up with quite elaborate structures.  Where things are located in the
-stack of graphics can get pretty confusing after a while, so this is not necessarily
-the way we want to write this code!
+And we can end up with quite elaborate structures.  Where things end up can get pretty confusing after a
+while, so this is not necessarily the way we want to write this code!
 
 ```
 Ball( c = 0 * Red );
@@ -404,12 +403,12 @@ leg3_2( [  bodyW_2,  bodyW_2, 0 ] );
 
 ![]( images/chapter4.png)
 
-Sometimes, we want to build things from the bottom up.  Focusing on the details, first
+Sometimes, we want to build things from the bottom up, focusing on the details first,
 before the big picture.
 
 ### Step 1
 
-Let's say we want to get to a detail of the leg.
+Let's say we want to develop the leg first.
 
 ```
 legSegmentLength = 20;
@@ -419,7 +418,8 @@ color( Gray )
   sphere( d=legSegmentWidth, center = true );
   translate( [ 0, 0, -legSegmentLength/2 ] ) {
     color( LightGray )
-      cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth  ], center = true );
+      cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth  ],
+            center = true );
   }
 ```
 
@@ -435,7 +435,8 @@ module legSegment4( ) {
     sphere( d=legSegmentWidth, center = true );
     translate( [ 0, 0, -legSegmentLength/2 ] ) {
       color( LightGray )
-        cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth ], center = true );
+        cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth ],
+              center = true );
     }
 }
 ```
@@ -544,12 +545,14 @@ module legSegment5( ) {
     sphere( d=legSegmentWidth, center = true );
     translate( [ 0, 0, -legSegmentLength / 2 ] ) {
       color( LightGray )
-        cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth ], center = true );
+        cube( [ legSegmentWidth, legSegmentWidth, legSegmentLength - legSegmentWidth ],
+              center = true );
     }
 }
 ```
 
 And legs which are adjustable leg segments and which terminate in orientable actuators.
+We add parameters to the leg function that govern all the limb angles.
 
 ```
 module leg5( hipRotate = 0, legRotate = 0, kneeRotate = 0, actuatorPitch = 0, actuatorYaw = 0 ) {
@@ -597,7 +600,6 @@ Combining them we get a robot with pose-able legs!
 ```
 bodyWidth = 20;
 
-//Base();
 body5();
 translate( [ bodyWidth/2, -bodyWidth/2, 0 ] )
   leg5();
@@ -611,8 +613,13 @@ translate( [ bodyWidth/2, bodyWidth/2, 0 ] )
 
 ![]( images/chapter5_1_a.png)
 
-Let's also create a kind of marker that can dove-tail in with itself.  This is so
+Let's also create a kind of marker that can merge-in with itself.  This is so
 we can see if two separate ways to place something result in the same exact location or not.
+
+We'll make it out of interleaved slices of a cone.  Luckily quite simple in OpenSCAD.  If
+we index the marker with a 1, it will be one set of slices, and a 2 will give the other.
+
+An index of zero will just draw a solid marker.
 
 ```
 module Marker5( c = Black, index = 0 ) {
@@ -635,7 +642,7 @@ module Marker5( c = Black, index = 0 ) {
   }
 }
 ```
-When two instances of the marker are close, but not quite right it is obvious
+When two instances of the marker are close, but not quite right it will be obvious
 ```
 rotate( [ 90, 0, 0 ] ) {
   translate( [ 75, 0, 0 ] )
@@ -647,7 +654,7 @@ rotate( [ 90, 0, 0 ] ) {
 
 ![]( images/chapter5_1_b.png)
 
-It is also obvious when the two markers are placed in the same place.
+It will also be obvious when the two markers are placed in the same place.
 
 ```
 translate( [ 95, 0, 0 ] )
@@ -695,7 +702,8 @@ rotate( [ 0, 0, robotRotate ] ) {
 
 If the leg were down, it would be trivial, but as it is, what exactly are the co-ordinates of that actuator?
 
-We can read it off the code itself, reaching into the internal details of the robot body and the legs.
+We can read all the translations and rotations off the code itself, by reaching into
+the internal details of how the robot body and the legs are constructed.
 
 ```
 rotate( [ 0, 0, robotRotate ] )
@@ -715,24 +723,26 @@ And this definitely works.  But there are some problems:
 - we have to know how the body and leg are organized internally
 - seems inefficient - can this be done more compactly?
 
-While we have the graphics at the right place we still don't know numerically where things are.  
-What if we want to manipulate this position mathematically?
+Very importantly, while we may have the graphics at the right place we still don't
+know numerically where things are.  What if we want to manipulate this position
+mathematically somehow?
 
-The first solution that occurs to many is perhaps to just add up all the various translations and rotations into
-some kind of aggregate.
+The first solution that might occur is to just add up all the various translations and rotations into
+some kind of grand aggregate.
 
 ```
-translate( [ 0, bodyWidth/2, 0 - legLength/4 - legLength/4 - legLength/4 - legLength/4 - legWidth/2 ] )
+translate( [ 0,
+             bodyWidth/2,
+             0 - legLength/4 - legLength/4 - legLength/4 - legLength/4 - legWidth/2 ] )
   rotate( [ legRotate + kneeRotate + actuatorPitch, actuatorYaw, robotRotate + hipRotate ] )
     Marker5( Red, 2 );
-
 ```
 
 ![]( images/chapter5_2_c.png)
 
-But it is immediately obvious that this doesn't work. - the rotations and translations need to be
-intertwined and they influence each other.  Rotating one segment influences the location of the next in
-a non-trivial way.  Rotating one segment also alters the net effect of subsequent rotations.
+But it is immediately obvious that this doesn't work. The rotations and translations need to be
+intertwined and they influence each other.  Rotating and translating one segment can influence the
+frame of reference and locations of the next in non-trivial ways.  
 
 To do this correctly by hand is a lot of hard work.  Even dramatically simplified cases get unmanageable very easily.
 
@@ -741,7 +751,8 @@ translate( [ 0,
              (bodyWidth/2) / sin( robotRotate ) + ( sin( legRotate ) * legLength/2  )
                + sin( legRotate + kneeRotate ) * ( legLength/2 + 0 * legWidth/2)
                + sin( legRotate + kneeRotate + actuatorPitch) * legWidth/2,
-             0 - ( cos( legRotate ) * legLength/2 ) - cos( legRotate + kneeRotate ) * ( legLength/2 + 1 * 0 * legWidth / 2)  
+             0 - ( cos( legRotate ) * legLength/2 ) - cos( legRotate + kneeRotate ) *
+               ( legLength/2 + 1 * 0 * legWidth / 2)  
                - cos( legRotate + kneeRotate + actuatorPitch ) * legWidth/2 ] )
   rotate( [ legRotate + kneeRotate + actuatorPitch, 0, robotRotate + hipRotate ] )
     Marker5( Orange, 2 );
@@ -749,20 +760,25 @@ translate( [ 0,
 
 ![]( images/chapter5_2_d.png)
 
-This set of equations does a great job in limited cases, because it has taken shortcuts and
-failed to take into account all 3 dimensions.  So how can we do this better?
+This set of equations does work in limited cases, because it has taken shortcuts and
+does not permit rotations in all 3 dimensions.  So how can we do this better?
 
 ### Step 3
 
 Solution - there is a representation that lets us chain transformations mathematically
 
-We'll call it a position: ```[ [ x, y, z ], [ ax, ay, az ], a ]```
+We'll call it a **Position**: ```[ [ x, y, z ], [ ax, ay, az ], a ]```
 
-It encodes the following relation:  rotate ```a``` degrees about the axis defined by ```[ ax, ay, az ]```, then shift to ```[ x, y, z ]```
+It encodes the following relation:  rotate ```a``` degrees about the axis defined by ```[ ax, ay, az ]```, then shift by ```[ x, y, z ]```
+
+Here's the OriginPosition.  It goes nowhere - neither translating nor rotating.
 
 ```
 originPosition = [ [ 0, 0, 0 ], [ 0, 0, 1 ], 0 ];
 ```
+
+Note that the rotation axis vector always needs to be of length one, even when there is zero rotation about it.
+
 The Mocad Library provides several nice functions to help manipulate positions.  The first is
 ```moMoveTo( )``` which just moves all the child graphics below to the specified position.
 ```
@@ -772,7 +788,9 @@ moMoveTo( originPosition )
 
 ![]( images/chapter5_3_a.png)
 
-Now - define a position that has no change in location, but flips things around the Z axis
+Moving using the ```originPosition``` obviously should do exactly nothing.
+
+Now - define a position that has no change in location, but flips things around the X axis by 180 degrees.
 
 ```
 flipPosition = [ [ 0, 0, 0 ], [ 1, 0, 0 ], 180 ];
@@ -782,7 +800,8 @@ moMoveTo( flipPosition )
 
 ![]( images/chapter5_3_b.png)
 
-Now - a position that moves and rotates
+Now - let's define a position that moves and rotates
+
 ```
 tumbleMovePosition1 = [ [ -30, 10, 10 ], [ 0, 1, 0 ], 90 ];
 
@@ -792,9 +811,11 @@ moMoveTo( tumbleMovePosition1 )
 
 ![]( images/chapter5_3_c.png)
 
-There is nothing magic about moMoveTo - it's just a rotate and a translate
+There is nothing magic about ```moMoveTo( )``` - it's just a rotate and a translate
 The difference being that the rotation is specified as an axis and angle,
-rather than 3 angles
+rather than 3 angles.
+
+We can unpack the position and do all the work ourselves if we want.
 
 ```
 translate( tumbleMovePosition1[ 0 ] )
@@ -804,7 +825,8 @@ translate( tumbleMovePosition1[ 0 ] )
 
 ![]( images/chapter5_3_d.png)
 
-Now - define a position that moves and rotates things around the Y axis
+Now - define a position that moves and rotates things around the Y axis.  We use ```moMoveTo( )```
+to directly move the marker.
 
 ```
 tumbleMovePosition2 = [ [ 30, 10, 10 ], [ 0, 1, 0 ], 90 ];
@@ -816,8 +838,8 @@ moMoveTo( tumbleMovePosition2 )
 
 ![]( images/chapter5_3_e.png)
 
-Now we can actually make the calculations, store and manipulate intermediate results
-and ultimately move the parts where you want.
+But with the position defined explicitly, we can actually store and manipulate intermediate and final results.
+Here we calculate the final position of the marker and just move it there directly.
 
 ```
 netPosition = moMoveToPosition( tumbleMovePosition2, flipPosition );
@@ -825,15 +847,18 @@ moMoveTo( netPosition )
   Marker5( Red, 2 );
 ```
 
+The split marker lets us see that the parts placed by OpenSCAD geometry are appearing in the
+same place as those calculated by the position code.
+
 ![]( images/chapter5_3_f.png)
 
 ### Step 4
 
-Now let's use these new techniques applied to our problem of actuator location and
-placement.  Let's take our same robot, and for reference use OpenSCAD's tools
+Now let's apply these new techniques to our problem of actuator location and
+placement.  Let's take our same robot, and for reference, first use OpenSCAD's tools
 to place a marker on the actuator.
 
-First the robot - note the full freedom used to position all the elements!
+First the robot - note the full freedom used to position all the elements!  Anything goes.
 
 ```
 robotRotate = 30;
@@ -910,7 +935,7 @@ This is a distinct improvement over the manual method.
 
 
 A solution to the long-windedness above is to develop a convention that allows part designers to
-bundle precalculated positions in with their parts.  This means that when we use parts, we can easily also
+bundle precalculated positions in with their parts.  This means that when we use parts, we can also
 gain access to their critical positions without having to work them out for ourselves.
 
 Let's describe how this could be done, using our robot body to start with.
@@ -949,7 +974,7 @@ body6();
 
 Let's define positions for all the positions on the robot body parts we care about.  First, the top of the robot:
 
-As we built the body above, the top of the "head" is actually at the origin.  When we place a ```body6()``` part
+As we built the body above, the top of the "head" is actually at the origin.  When we place a ```body6()``` part,
 the top of its head will always appear at the origin.
 
 ```
@@ -975,8 +1000,8 @@ moMoveTo( topPosition )
 ![]( images/chapter6_1_b.png)
 
 The place where the legs will go can be defined too. They are all located on the opposite
-end of the robot body.  Notice also that they are rotated about the z-axis.  This reflects the
-fact that they're on the opposite side of the body.
+end of the robot body.  Notice also that they are flipped about the z-axis.  This reflects the
+fact that they're on the opposite side of the body from the origin.
 
 ```
 leg1Position = [ [ body6W_2, body6H, -body6W_2 ], [ 0, 0, 1 ], 180 ];
@@ -996,7 +1021,7 @@ moMoveTo( leg4Position )
 
 ![]( images/chapter6_1_c.png)
 
-We now have positions defined for the robot body in numerical form which we can use however we like.
+We now have positions defined for the robot body in numerical form which we can use how ever we like.
 
 Now, let's define a legSegment
 
@@ -1009,7 +1034,8 @@ module legSegment6( ) {
     sphere( d=legSegment6Width, center = true );
     translate( [ 0, legSegment6Length / 2, 0 ] ) {
       color( LightGray )
-        cube( [ legSegment6Width, legSegment6Length - legSegment6Width, legSegment6Width ], center = true );
+        cube( [ legSegment6Width, legSegment6Length - legSegment6Width, legSegment6Width ],
+              center = true );
     }
 }
 ```
@@ -1020,9 +1046,9 @@ legSegment6();
 
 ![]( images/chapter6_1_d.png)
 
-And as we did for the body above, let's define some Positions.  The first position is the top of the leg.
-As we have designed it above this co-incides with the origin.  The other end of the leg segment is the
-second position again rotated to reflect the fact that its on the opposite side.
+And as we did for the body above, let's define some Positions.  The first position is the top of the segment.
+As we have designed it above, this co-incides with the origin.  The other end of the leg segment is the
+second position, again flipped to reflect the fact that its on the opposite side.
 
 ```
 legTopPosition = [ [ 0, 0, 0 ], [ 0, 0, 1 ], 0 ];
@@ -1050,6 +1076,10 @@ moMoveTo( oddPosition ) {
 ```
 ![]( images/chapter6_1_f.png)
 
+Here we have landed the legSegment in the right place, but it is upside down.
+
+Luckily, flipping it is trivial.
+
 ```
 moMoveTo( moMoveToPositions( [ oddPosition, leg4Position, moFlipPosition ] ) ){
   Marker6( Red, 4 );
@@ -1061,7 +1091,9 @@ moMoveTo( moMoveToPositions( [ oddPosition, leg4Position, moFlipPosition ] ) ){
 
 ## Step 2
 
-Adding the positions to the part definitions
+The positions and parts go together.  So it makes sense to add the position definitions to the part definitions.
+
+We can do this as follows: create an array of positions, then create a function to return requested positions.
 
 ```
 body6Positions = [
@@ -1075,11 +1107,13 @@ body6Positions = [
 function body6Position( p = 0 ) = body6Positions[ p ];
 ```
 
+By convention the function is called ```[partName]Position( );```
+
+Moving parts around is now even easier.
+
 ```
-flipPosition = [ [ 0, 0, 0 ], [ 0, 0, 1 ], 180 ];
 body6();
-body6Position4 = body6Position( 4 );
-moMoveTo( moMoveToPosition( body6Position4, flipPosition ) )  {
+moMoveTo( moMoveToPosition( body6Position( 4 ), moFlipPosition ) )  {
   Marker6( Red, 1 );
   legSegment6();
 }
@@ -1100,8 +1134,8 @@ function legSegment6Position( p = 0 ) = legSegment6Positions[ p ];
 ```
 
 ```
-legSegment6Position1 = legSegment6Position( 1 );
-moMoveTo( moMoveToPositions( [ body6Position4, flipPosition, legSegment6Position1, flipPosition ] ) )  {
+moMoveTo( moMoveToPositions( [ body6Position( 4 ), moFlipPosition,
+                               legSegment6Position( 1 ), moFlipPosition ] ) )  {
   Marker6( Red, 1 );
   legSegment6();
 }
@@ -1111,8 +1145,9 @@ moMoveTo( moMoveToPositions( [ body6Position4, flipPosition, legSegment6Position
 
 ### Step 3
 
-When internally the part uses moPresent( ), it automatically gets the ability to
-visualize where all the part's positions are, and gets an automatic name tag.
+When internally the part uses the Mocad helper function, ```moPresent( )```, it
+automatically gets the ability to visualize where all the part's positions are,
+and gets an automatic name tag.
 
 ```
 module body6Complete(  p = 0, info = false  ) {
@@ -1137,6 +1172,8 @@ module body6Complete(  p = 0, info = false  ) {
 }
 ```
 
+Creating objects like this permit very helpful position and orientation marks to be added to the scene.
+
 ```
 body6Complete( 0, info = true, $name = true );
 body6Complete( 1, info = true, $name = true );  
@@ -1144,9 +1181,10 @@ body6Complete( 1, info = true, $name = true );
 
 ![]( images/chapter6_3_a.png)
 
-So here's a complete new part: a camera
+To drive the point home, here's a complete new part: a camera
 
 ```
+// size constants
 camera6StandHeight = 20;
 camera6Width = 10;
 camera6Height = 5;
@@ -1156,16 +1194,21 @@ camera6LensDiameter = 4;
 camera6StandOffset = 5;
 camera6StandDiameter = 2;
 
+// define the positions
 camera6Positions = [
   [ [ 0, 0, 0 ], [ 0, 0, 1 ], 0 ],
   [ [ 0, camera6Depth-camera6StandOffset, camera6Height/2 ], [ 1, 0, 0 ], -90 ],
   [ [ 0, camera6Depth-camera6StandOffset, -camera6Height/2-camera6StandHeight ], [ 1, 0, 0 ], 90 ],
 ];
 
+// create the position function
 function camera6Position( p = 0 ) = camera6Positions[ p ];
 
+// create the part function
 module camera6( p = 0, info = false ) {
+  // use the Mocad helper
   moPresent( camera6Positions, p, info ) {
+    // create the appearance
     color( LightGray ) {
       translate( [ camera6LensDiameter * 0.75, 0, 0 ] )
         rotate( [ 90, 0, 0 ] )
@@ -1211,12 +1254,11 @@ As we have seen, parts can be moved to where other parts are.  Let's take a clos
 
 ```
 camera6( info = true );
-
 ```
 
 ![]( images/chapter6_4_a.png)
 
-This has been designed intentionally with a quirk - the position that you're most likely to want to
+It has been designed intentionally with a quirk - the position that you're most likely to want to
 connect it with is not position 0.  Here's what happens if you just naively place it.
 
 ```
@@ -1271,7 +1313,7 @@ moMoveTo( body6Position( 0 ) )
 
 ![]( images/chapter6_4_e.png)
 
-Now, finally, we have what we want.  This invert thing is so common that we permit the
+Now, we have what we want.  This invert thing is so common that we permit the
 part position that you want to use at the origin to be passed in as a parameter to the object.
 
 Below you can see the camera invocation has the desired position number passed in, saving us the invert call.
@@ -1295,7 +1337,7 @@ moMoveTo( robotPosition ) {
 Quite often, even when you have the two correct positions connecting together, the part
 still needs some further modification.
 
-We have seen this before in our use of ```moFlipPosition()```.
+We have seen this before in our use of the constant ```moFlipPosition```.
 
 ```
 robotPosition = [ [ 0, 0, 0 ], [ 1, 0, 0 ], -90 ];  
@@ -1321,6 +1363,8 @@ of the connection.  We can do this with ```moLinearPosition( )```.
 Notice how we can just combine these placement tweaks together, although in some
 cases order may be important.
 
+In the following, the robot head is 8mm lower than before.
+
 ```
 moMoveTo( robotPosition ) {
   body6Complete();
@@ -1343,12 +1387,16 @@ moMoveTo( robotPosition ) {
 
   color( LightGray )
     moMoveTo( body6Position( 0 ) )
-      moMoveTo( moMoveToPositions( [ moFlipPosition, moLinearPosition( -16 ), moRollPosition( 45 ) ] ) )
+      moMoveTo( moMoveToPositions( [ moFlipPosition,
+                                     moLinearPosition( -16 ),
+                                     moRollPosition( 45 ) ] ) )
         camera6( 2 );
 }
 ```
 
 ![]( images/chapter6_5_c.png)
+
+Now the head is lowered further, and rotated away from us.
 
 ### Step 6
 
