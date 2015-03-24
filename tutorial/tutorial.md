@@ -68,7 +68,7 @@ for ( i = [ 0 : 20 : 360 ] )
 
 ### Step 3
 
-Modules may also perform operations on graphics created beneath them.  Just is just
+Modules may also perform operations on graphics created beneath them.  This is just
 the same as ```translate( )```, for example, which operates on its children graphics.
 
 Here we define a module called ```Encircle``` which does exactly what the ```for``` loop above
@@ -203,7 +203,7 @@ rotate( [ -45, 0, 0 ] ) {
 
 ### Step 4
 
-And we can end up with quite elaborate structures.  Where things end up can get pretty confusing after a
+And we can end up with quite elaborate structures.  Pretty confusing too, after a
 while, so this is not necessarily the way we want to write this code!
 
 ```
@@ -427,7 +427,7 @@ color( Gray )
 
 ### Step 2
 
-Happy with the leg segment, we can then create an object with it
+Happy with the leg segment, we can then create an object out of it
 
 ```
 module legSegment4( ) {
@@ -453,7 +453,7 @@ translate( [ 0, 0, -legSegmentLength ] )
 
 ### Step 3
 
-We can do the same with the body.  Exploring how we want it to look.
+We can do the same with the body, exploring how we want it to look.
 
 ```
 bodyW = 20;
@@ -684,7 +684,6 @@ legRotate =  90;
 kneeRotate = -45;
 actuatorPitch = 45;
 
-//Base();
 rotate( [ 0, 0, robotRotate ] ) {
   body5();
   translate( [ bodyWidth/2, -bodyWidth/2, 0 ] )
@@ -740,8 +739,7 @@ translate( [ 0,
 
 ![]( images/chapter5_2_c.png)
 
-But it is immediately obvious that this doesn't work. The rotations and translations need to be
-intertwined and they influence each other.  Rotating and translating one segment can influence the
+But it is immediately obvious that this doesn't work. Rotating and translating one segment can influence the
 frame of reference and locations of the next in non-trivial ways.  
 
 To do this correctly by hand is a lot of hard work.  Even dramatically simplified cases get unmanageable very easily.
@@ -765,11 +763,13 @@ does not permit rotations in all 3 dimensions.  So how can we do this better?
 
 ### Step 3
 
-Solution - there is a representation that lets us chain transformations mathematically
+There is a representation that lets us chain transformations mathematically!
 
 We'll call it a **Position**: ```[ [ x, y, z ], [ ax, ay, az ], a ]```
 
-It encodes the following relation:  rotate ```a``` degrees about the axis defined by ```[ ax, ay, az ]```, then shift by ```[ x, y, z ]```
+It encodes the following relation:  
+- rotate ```a``` degrees about the axis defined by ```[ ax, ay, az ]```
+- then shift by ```[ x, y, z ]```
 
 Here's the OriginPosition.  It goes nowhere - neither translating nor rotating.
 
@@ -900,7 +900,7 @@ rotate( [ 0, 0, robotRotate ] )
 
 ![]( images/chapter5_4_a.png)
 
-Now let's do it with positions - positions rotate first, then translate
+Now let attempt to locate the actuator with positions.  Remember, positions rotate first, then translate.
 ```
 originPosition = [ [ 0, 0, 0 ], [ 0, 0, 1 ], robotRotate ];
 legPosition = [ [ bodyWidth/2, bodyWidth/2, 0 ], [ 0, 0, 1 ], hipRotate ];
@@ -926,8 +926,7 @@ moMoveTo( finalActuatorPosition )
 ![]( images/chapter5_4_b.png)
 
 
-Still a bit long-winded, but it works with all the parameters, and no fiddly math.  
-This is a distinct improvement over the manual method.
+Still a bit long-winded, but it works with all the parameters, and no fiddly math.  This is a distinct improvement over the manual method.
 
 ## Chapter 6 - Parts, Connections
 
@@ -972,10 +971,10 @@ body6();
 
 ![]( images/chapter6_1_a.png)
 
-Let's define positions for all the positions on the robot body parts we care about.  First, the top of the robot:
+Let's define Positions for all the key robot body parts we care about.  First, the top of the robot:
 
-As we built the body above, the top of the "head" is actually at the origin.  When we place a ```body6()``` part,
-the top of its head will always appear at the origin.
+As we built the body above, the top of the "body" is actually at the origin.  When we place a ```body6()``` part,
+the top will always appear at the origin.
 
 ```
 topPosition = [ [ 0, 0, 0 ], [ 0, 0, 1 ], 0 ];
