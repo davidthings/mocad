@@ -1,4 +1,4 @@
-# MOCAD TUTORIAL
+# MOCAD LIBRARY TUTORIAL
 
 ## Chapter 1 - Introduction to OpenSCAD
 
