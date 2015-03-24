@@ -30,21 +30,19 @@ A prequisite to using **Mocad** is the installation of OpenSCAD.  OpenSCAD is av
 
 [OpenSCAD Downloads](http://www.openscad.org/downloads.html)
 
-With OpenSCAD installed, one can either download this repository's zip, or clone just clone it.
+With OpenSCAD installed, one can either download this repository's zip, or just clone it.
 
 ```git clone https://github.com/davidthings/mocad.git```
 
-OpenSCAD will function on relatively modest machines, however, to load large arrays of files - such as some of the Mocad Part Library index files, higher end machines may be required.  One hint should always be born in mind - text labels are quite complex graphically.  A scene that won't function at all on a particular machine may work just fine with text turned off.
+OpenSCAD will function on relatively modest machines, however, to load large arrays of files - such as some of the Mocad Part Library index files, higher-end machines may be required.  One hint should always be born in mind - text labels are quite complex graphically.  A scene that won't function at all on a particular machine may work just fine with text turned off.
 
 To do this, set ```moText = false``` in ```mo/mo.scad```
 
-Once the OpenSCAD is installed and Mocad is sitting somewhere there are several possible
-next steps.
+Once OpenSCAD is installed and the Mocad directory is sitting somewhere on your machine there are several possible next steps.
 
-- open one of the index files (```index.scad``` - very large or ```mocad\moIndex.scad```)
-to see what parts are available
+- open one of the index files (```index.scad``` - very large or ```mocad\moIndex.scad``` or other) to see what parts are available
 - open an example (from the ```example\``` directory) to see how Mocad can be used and abused
-- open any part file - part writers are encouraged to make files invoke an instance 
+- open any part file - part writers are encouraged to make files invoke an instance
 of their parts upon direct opening.
 - open the tutorial document containing all the tutorial code (again, this is a big
   file)
@@ -92,8 +90,7 @@ If all seems well in there, it is likely things are OK with the codebase.
 Mocad is alpha code.  It is being developed for use in several small projects, so
 will likely improve over time.
 
-Issues and feedback are encouraged.  Does this make sense?  Are there critical gaps
-in the documentation?
+Issues and feedback are encouraged.  Does this project make sense?  Is the naming OK? Are there critical gaps in the documentation?  Could some of the internal math be more efficient?
 
 Pull Requests are welcome, although adherence to file and part conventions outlined
 in the Reference is requested.
@@ -122,4 +119,4 @@ There are other "Connector" libraries, although Mocad was developed independentl
 
 [Obiscad attach.scad](https://github.com/Obijuan/obiscad/blob/master/obiscad/attach.scad)
 
-Maths.scad (despite the irregular spelling!) offers numerous helpful math routines.  *Mocad* uses some of these in the *Position* manipulation code.
+Maths.scad (despite the irregular spelling!) offers numerous helpful math routines.  **Mocad** uses some of these in the **Position** manipulation code.
