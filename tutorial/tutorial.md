@@ -6,11 +6,9 @@
 
 ### Step 1
 
-The overall operation of OpenSCAD is simple: write code to make 3D objects, then write code to move them to where you want them to be.  To make things, you can use built-in primitives - cube, sphere, cylinder, etc. and then peform on them one or more of the many operations available.  You can also load prebuilt parts and manipulate them in the same ways.
+In what follows, we'll take a quick tour of selected parts of OpenSCAD, then Mocad's internals.  If you're an OpenSCAD expert you might want to skip to Chapter 5 which is where the meat of the Mocad Library is introduced.
 
 The OpenSCAD documentation is excellent - here's their handy cheat sheet.  http://www.openscad.org/cheatsheet/index.html  There is a lot to OpenSCAD, it's unlike most other languages you may have learned.  Please see any of the many good tutorials to learn about it.
-
-In what follows, we'll take a quick tour of selected parts of OpenSCAD, then Mocad's internals.  If you're an OpenSCAD expert you might want to skip to Chapter 5 which is where the meat of the Mocad Library is introduced.
 
 Let's start by creating some geometry!  A cube is a good place to start.  Here the cube dimensions are specified in an array - ```[ xSize, ySize, zSize ]```.  The other parameter requests that rather than locating the cube with one corner at the origin, the cube should be centered.
 
