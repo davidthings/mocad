@@ -36,20 +36,6 @@ OpenSCAD will function on relatively modest machines, however, to load large arr
 
 To do this, set ```moText = false``` in ```mo/mo.scad```
 
-## Versions
-
-This code is not yet versioned.  Consider it alpha quality.  At the appropriate time, it will get released as a 1.0 and a corresponding branch created.
-
-## Testing
-
-This code has been developed on Mac and Linux.  No formal testing mechanisms are present.  
-
-An excellent test for the integrity of the various internal modules and functions is to open the tutorial code.  
-
-[Tutorial OpenSCAD Code](tutorial/moTutorial.scad)
-
-If all seems well in there, it is likely things are OK with the codebase.
-
 ## User Guide
 
 There is a short user guide outlining the various features and giving some flavor of **Mocad** here:
@@ -68,7 +54,27 @@ There is also a tutorial - a very quick overview of OpenSCAD followed by a lengt
 
 [Tutorial](tutorial/tutorial.md)
 
-All code discussed in the tutorial
+All code discussed in the tutorial is available as a single OpenSCAD file
+
+[Tutorial OpenSCAD Code](tutorial/moTutorial.scad)
+
+## Versions
+
+This code is not yet versioned.  Consider it alpha quality.  At the appropriate time, it will get released as a 1.0 and a corresponding branch created.
+
+## Testing
+
+This code has been developed on Mac and Linux.  No formal testing mechanisms are present.  
+
+An excellent test for the integrity of the various internal modules and functions is to open the tutorial code.  
+
+[Tutorial OpenSCAD Code](tutorial/moTutorial.scad)
+
+If all seems well in there, it is likely things are OK with the codebase.
+
+## Status
+
+
 
 ## Related Resources
 
@@ -93,3 +99,5 @@ The team that creates OpenSCAD are the major enablers of this project.  The envi
 There are other "Connector" libraries, although Mocad was developed independently.  The ultimate structure of the **Mocad** **Position** was decided by consulting Obiscad:
 
 [Obiscad attach.scad](https://github.com/Obijuan/obiscad/blob/master/obiscad/attach.scad)
+
+Maths.scad (despite the irregular spelling!) offers numerous helpful math routines.  *Mocad* uses some of these in the *Position* manipulation code.
