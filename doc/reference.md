@@ -4,10 +4,10 @@
 
 The directory structure is as follows:
 
-```./mo/``` - contains the intrinsic Mocad files (```mo.scad```, and its dependencies)
-this is the minimal Mocad requirement
+```./mo/``` - contains the intrinsic Mocad files (```mo.scad```, and its dependencies).
+This is the minimal Mocad requirement
 
-```./doc/``` - contains the Reference and the User Guide
+```./doc/``` - contains this Reference and the User Guide
 
 ```./tutorial/``` - contains the tutorial
 
@@ -40,9 +40,9 @@ an appropriate short prefix.  Mocad parts, for example, are preceded with "mo". 
 When you build parts or your own projects, if you do it in a directory off the top of the project (i.e. in ```./myProject```) all references to parts will match those in the rest of the system, popping up a directory, to the project root, then dropping down into a new one for the part.  For example ```../mocad/moShaft.scad``` works everywhere in this scheme.
 
 An optional service to parts library users is to present the provided components
-in an index.  This can be modeled off the index in the ```mocad``` directory (called ```moIndex.scad``` or any other.  Mostly, it should load all the parts from a single organization and present them along with a name label.
+in an index.  This can be modeled off the index in the ```mocad``` directory (called ```moIndex.scad```) or any other.  Mostly, it should load all the parts from a single organization and present them along with a name label.
 
-The top level index (```./index.scad```) contains a meta index of all the part libraries.
+The top level index (```./index.scad```) contains a meta index of all the part libraries.  This is a large model.
 
 # Parts
 
@@ -198,7 +198,7 @@ function moInvertPosition( position = 0 ) = moCombinePositions(
             [-position[0],[0,0,1],0] );
 ```
 
-This is a critical operation when seeking to move a part to one of its own Positions.
+This is a critical operation when seeking to reorient a part to one of its own Positions.
 
 The next function returns true or false depending on whether the provided value is a legal non identity position.  This function is used internally to reduce math workload.
 
@@ -219,9 +219,9 @@ moMoveTo( moNewPosition )
    moPart();
 ```
 
-Creates a ```moPart``` and moves and re-orients it to moNewPosition
+Creates a ```moPart``` and moves and re-orients it to ```moNewPosition```
 
-```moAttach( base, basePosition, joint, partPosition )``` - attached the child graphics part to the base location / basePosition with the specified joint (i.e. nothing, or moFlipPosition, or some other).  The value zero is read as a no-operation - ignore.
+```moAttach( base, basePosition, joint, partPosition )``` - attaches the child graphics part to the base location / basePosition with the specified joint (i.e. nothing, or moFlipPosition, or some other).  The value zero is read as a no-operation - ignore.
 
 For example:
 
