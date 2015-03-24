@@ -46,6 +46,10 @@ Mocad can also help in other domains.  Here is a layout of a project using Adafr
 
 ![](images/lcd_device.png)
 
+Here are some of the parts Mocad has to help build PCB's:
+
+![](images/mocad_pcb_parts.png)
+
 ## Mocad Operation
 
 Mocad promotes part reuse by pairing the definition of parts with **Positions**.  This is similar to the concept of **Connector** expressed in other libraries, in fact Mocad **Positions** are exactly compatible with mechanisms used in many of these other libraries.
@@ -185,6 +189,10 @@ module act3WheelDriveMotor( left = true ) {
 }
 ```
 
+Now the part is defined, we can use it in another project.  Here's the driver motor assembly attached to the main channel of the 3 Wheeled Robot.
+
+![](images/actobotics_driver_motor_assembly_attached.png)
+
 As an extra bonus, a couple of extra lines gives us a nice cut away feature so
 we can make sure everything is working OK inside:
 
@@ -210,7 +218,7 @@ actBevelGearboxC( 0, outputShaftLength = 2.5 * in, inputShaftLength = 0 );
 // place the channel
 moMoveTo( actBevelGearboxCPosition( [ 5, 0 ] ) )
   actAluminumChannel6_0();
-````
+```
 Now becomes intersection code:
 ````
 // take the intersection of all the following
