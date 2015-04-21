@@ -1,6 +1,6 @@
 include <../mo/mo.scad>
 
-motorShaftDepth = 19.2;
+motorShaftDepth = 14;
 motorShaftDiameter = 6;
 motorGearShoulderDepth = 3;
 motorGearShoulderDiameter = 18;

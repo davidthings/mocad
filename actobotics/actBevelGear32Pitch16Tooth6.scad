@@ -2,16 +2,12 @@ include <../mo/mo.scad>
 
 gearOffset = 0.253 * in;
 gearDepth = 0.438*in;
-gearMateDepth = 0.658*in;
-gearMateDistance = gearMateDepth - gearDepth;
+gearMountingDistance = 0.75*in;
 
 positions = [
   [ [ 0, 0, 0 ], [ 0, 0, 1 ], 0 ],
   [ [ 0, gearDepth, 0 ], [ 0, 0, 1 ], 180 ],
-  [ [ gearMateDistance, gearMateDepth, 0 ], [ 0, 0, 1 ], 90 ],
-  [ [ -gearMateDistance, gearMateDepth, 0 ], [ 0, 0, 1 ], -90 ],
-  [ [ 0, gearMateDepth, gearMateDistance ], [ 1, 0, 0 ], -90 ],
-  [ [ 0, gearMateDepth, -gearMateDistance ], [ 1, 0, 0 ], 90 ],
+  [ [ 0, gearMountingDistance, 0 ], [ 0, 0, 1 ], 180 ],
 ];
 
 module actBevelGear32Pitch16Tooth6( p = 0, info = false ) {

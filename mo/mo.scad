@@ -238,7 +238,9 @@ function moTranslationPosition( x, y, z ) = [ [ x, y, z ], [0, 0, 1], 0 ];
 function moIsIdentityPosition( p = 0 ) = ( ( p == 0 ) ? true :
                                                          ( p[0][0]==0&&p[0][1]==0&&p[0][2]==0&&p[2]==0) );
 
-function moInvertPosition( position = 0 ) = moCombinePositions( [[0,0,0],-position[1],position[2] ], [-position[0],[0,0,1],0] );
+function moInvertPosition( position = 0 ) = [-position[0],-position[1],position[2] ];
+
+function moReorientPosition( position, rotation ) = [ position[ 0 ], rotation[ 1 ], rotation[ 2 ] ];
 
 // ----------------------------------------------------------------------------------------
 

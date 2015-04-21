@@ -3,6 +3,7 @@
 
 use <../mocad/moLogo.scad>
 use <../mocad/moShaft.scad>
+use <../mocad/moSpacer.scad>
 use <../mocad/moPCB.scad>
 use <../mocad/moGrid.scad>
 use <../mocad/moSocketHeadCapScrew6_32.scad>
@@ -32,6 +33,8 @@ module selectFasteners() {
 
 module selectOther( ) {
   moGridParts( [ 0, 0, 0], [ 3 * in, 0, 0 ] ) {
+    moShaft( );
+    moSpacer( );
     moPipeline( );
     moPipelinePoints();
     moGrid( info = true );
