@@ -2,7 +2,7 @@ include <../mo/mo.scad>
 
 use <actHubHolePattern0_77.scad>
 
-BracketWall  = 0.125 * in;
+BracketWall  = 0.09 * in;
 
 BeamMountDistance = ( 1.405 - ( 1.32 - 1.0607 ) / 2 ) * in;
 BeamMountHoleDistance = 1.0607 * in;

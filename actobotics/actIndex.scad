@@ -64,6 +64,7 @@ use <../actobotics/actCollarSetScrew0_5.scad>
 use <../actobotics/actCrossoverPlateA.scad>
 use <../actobotics/actGearMotorPrecision.scad>
 use <../actobotics/actFlatBracketA.scad>
+use <../actobotics/actFlatBracketB.scad>
 use <../actobotics/actFlatBracketC.scad>
 use <../actobotics/actFlatBracketD.scad>
 use <../actobotics/actHexShaft12Adapter0_25.scad>
@@ -89,6 +90,7 @@ use <../actobotics/actHubSpacer_1_0.scad>
 use <../actobotics/actHubSwivel.scad>
 use <../actobotics/actMiniChannel3_08.scad>
 use <../actobotics/actMiniChannel6_16.scad>
+use <../actobotics/actMotorMountPlanetaryA.scad>
 use <../actobotics/actMotorMountPlanetaryB.scad>
 use <../actobotics/actMotorMountPlanetaryC.scad>
 use <../actobotics/actMotorMountB.scad>
@@ -163,6 +165,7 @@ module selectMounts() {
     actHubMountQuad90E(  );
     actMotorMountClamping32( );
     actMotorMountClamping37( );
+    actMotorMountPlanetaryA(  );
     actMotorMountPlanetaryB(  );
     actMotorMountPlanetaryC(  );
     actMotorMountB(  );

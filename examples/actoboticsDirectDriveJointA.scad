@@ -66,7 +66,7 @@ module actDirectDriveJointA( p, outputShaftLength = 2.5 * in, inputShaftLength =
   	    shaft( 1, l = 1 * in, d = 0.25 * in );
 
     moFlip()
-      #motorOnMount( );
+      motorOnMount( );
   }
 }
 
@@ -81,12 +81,12 @@ moMoveTo( actDirectDriveJointAPosition([ 5, 0 ] ) ) {
   //intersection() 
   {
   actDirectDriveJointA( [ 0, 0 ], outputShaftLength = 1.25 * in, inputShaftLength = 0 * in, info = false )
-    #actDirectDriveJointA( [ 0, 0 ], outputShaftLength = 1.25 * in, inputShaftLength = 0 * in, info = false );
+    actDirectDriveJointA( [ 0, 0 ], outputShaftLength = 1.25 * in, inputShaftLength = 0 * in, info = false );
 
-  #moMoveTo( actDirectDriveJointAPosition( [ 0, 0 ] ) )
+  moMoveTo( actDirectDriveJointAPosition( [ 0, 0 ] ) )
 
-    #actAluminumChannel6_0( [ 0, 1, 0 ], info = false);
-    #moMoveTo( actAluminumChannel6_0Position( [ 0, 2, 0 ] ) )
+    actAluminumChannel6_0( [ 0, 1, 0 ], info = false);
+    moMoveTo( actAluminumChannel6_0Position( [ 0, 2, 0 ] ) )
       actAluminumChannel6_0( [ 10, 8, 0 ], info = false);
   }
 }

@@ -21,16 +21,19 @@ module actBevelGearboxC( p, outputShaftLength = 2.5 * in, inputShaftLength = 1 *
 
     // output shaft
     moMoveTo( actChannelCubeExternalPatternPosition( [ 1, 0 ] ), 0.75 * in ) {
-      if ( outputShaftLength > 0 )
-	     moShaft( 0, l = outputShaftLength, d = 0.25 * in );
-      moMoveTo( moShaftPosition( 0 ), 0.65 * in )
-        moFlip()
-          actBevelGear32Pitch24Tooth0_25( );
-      moMoveTo( moShaftPosition( 0 ), -0.65 * in )
-   	     actCollarSetScrew0_25( 0 );
+      moPose( [ 0,  360*$t, 0 ], [ 0, 0, 0 ] ){
+
+        if ( outputShaftLength > 0 )
+         moShaft( 0, l = outputShaftLength, d = 0.25 * in );
+        moMoveTo( moShaftPosition( 0 ), 0.65 * in )
+          moFlip()
+            actBevelGear32Pitch24Tooth0_25( );
+        moMoveTo( moShaftPosition( 0 ), -0.65 * in )
+           actCollarSetScrew0_25( 0 );
+ 	    }
 	  }
-	
-     // output bearings
+    
+    // output bearings
 	  moMoveTo( actChannelCubeExternalPatternPosition( [ 1, 0 ] ) )
 	    moFlip()
          actBearingMountFlat0_25( 0 );

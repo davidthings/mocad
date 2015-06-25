@@ -214,7 +214,6 @@ function moMoveToPosition( base = 0, position = 0 ) = moCombinePositions( base, 
 function moMoveToPositions( positions, index = 0 ) = ( index == len( positions ) - 1 ) ? positions[ index ] :
                                                                                          moCombinePositions( positions[ index ], moMoveToPositions( positions, index + 1 ) );
 
-// untested
 function moMoveOriginToPosition( base = 0, position = 0 ) = moCombinePositions( base,
                                                                                    [[0,0,0],-partPosition[1],partPosition[2] ], [-partPosition[0],[0,0,1],0] );
 
@@ -239,7 +238,9 @@ function moTranslationPosition( x, y, z ) = [ [ x, y, z ], [0, 0, 1], 0 ];
 function moIsIdentityPosition( p = 0 ) = ( ( p == 0 ) ? true :
                                                          ( p[0][0]==0&&p[0][1]==0&&p[0][2]==0&&p[2]==0) );
 
-function moInvertPosition( position = 0 ) = moCombinePositions( [[0,0,0],-position[1],position[2] ], [-position[0],[0,0,1],0] );
+function moInvertPosition( position = 0 ) = [-position[0],-position[1],position[2] ];
+
+function moReorientPosition( position, rotation ) = [ position[ 0 ], rotation[ 1 ], rotation[ 2 ] ];
 
 // ----------------------------------------------------------------------------------------
 
@@ -297,6 +298,16 @@ module moPose( r = [ 0, 0, 0], t = [ 0, 0, 0 ] ) {
       children();
 }
 
+
+// 
+// Animation Helpers
+//
+
+function moAnimationCycle( t0, t1, o0, o1 ) = ( $t < t0 || $t >= t1 ) ? 0 : o0 + ( ( $t - t0 ) * ( o1 - o0 ) / ( t1 - t0 ) );
+
+function moSmoothAnimationCycle( t0, t1, r ) = r * sin( moAnimationCycle( t0, t1, -180, 180 ) );
+
+function moSuperSmoothAnimationCycle( t0, t1, r ) = r * sin( moAnimationCycle( t0, t1, -180, 180 ) ) * min( 1, 1.414 * sin( moAnimationCycle( t0, t1, 0, 180 ) ) );
 
 //
 //

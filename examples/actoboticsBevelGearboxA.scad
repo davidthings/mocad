@@ -17,13 +17,15 @@ module actBevelGearboxA( p, outputShaftLength = 2.5 * in, inputShaftLength = 1 *
     actAluminumChannel1_5( info = info );
 
     moMoveTo( actAluminumChannel1_5Position( [ 4, 0 ] ), t = -0.5 * in) {
+     	moPose( [ 0,  360*$t, 0], [ 0, 0, 0 ] ){
+
       if ( outputShaftLength > 0 )
 	     moShaft( 1, l = outputShaftLength, d = 0.25 * in );
       translate( [ 0, 0.585 * in, 0 ] )
         actBevelGear32Pitch24Tooth0_25( );
       translate( [ 0, 1.75 * in, 0 ] )
         actCollarSetScrew0_25( 0 );
-    }
+    }}
 
    // output bearings
 	moMoveTo( actAluminumChannel1_5Position( [ 4, 0 ] ) )
@@ -45,7 +47,7 @@ module actBevelGearboxA( p, outputShaftLength = 2.5 * in, inputShaftLength = 1 *
 function actBevelGearboxAPosition( p ) = actAluminumChannel1_5Position( p );
 
 moMoveOriginTo( actBevelGearboxAPosition([ 0, 0 ] ) ) {
-  actBevelGearboxA( 0, outputShaftLength = 2.5 * in, inputShaftLength = 0 * in, info = true );
+  actBevelGearboxA( 0, outputShaftLength = 2.5 * in, inputShaftLength = 0 * in );
   #moFlip()
     motorOnMount();
 }

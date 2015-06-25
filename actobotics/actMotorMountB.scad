@@ -1,6 +1,6 @@
 include <../mo/mo.scad>
 
-// CAD - https://www.servocity.com/html/aluminum_motor_mount_b__555128.html
+// CAD - https://www.servocity.com/html/planetary_gearmotor_mount_b__5.html
 mountDepth = 0.24*in;
 mountFlangeDepth = 0.1 * in; // CAD not specific
 mountHeight = 0.75*in;
