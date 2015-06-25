@@ -17,7 +17,7 @@ use <../mocad/moLogo.scad>
 
 include <../mo/mo.scad>
 
-act3WheelBotParts( );
+// act3WheelBotParts( );
 
 $time = 0;
 

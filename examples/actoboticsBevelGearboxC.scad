@@ -59,7 +59,7 @@ function actBevelGearboxCPosition( p ) = actChannelCubeExternalPatternPosition( 
 
 moMoveTo( actBevelGearboxCPosition([ 0, 0 ] ) ) {
 
-  intersection() 
+  //intersection() 
   {
   actBevelGearboxC( 0, outputShaftLength = 2.5 * in, inputShaftLength = 0 * in, info = false );
 
