@@ -14,6 +14,7 @@ use <../mocad/moHExtrusion.scad>
 use <../mocad/moTeeExtrusion.scad>
 use <../mocad/moChannelExtrusion.scad>
 use <../mocad/moRectangularTube.scad>
+use <../mocad/moRectangularExtrusion.scad>
 use <../mocad/moRightAngleExtrusion.scad>
 
 
@@ -39,12 +40,14 @@ module selectFasteners() {
 }
 
 module selectRaw() {
-  spec = [ 2 * in, 0.25*in, 0.25*in, 0.06*in ];
+  spec = [ 2 * in, 0.25*in, 0.25*in, 0.06*in, 0.5 * in ];
+  specRE = [ 2 * in, 0.25*in, 0.06*in, 0.5 * in ];
   moGridParts( [ 0, 0, 0], [ 3 * in, 0, 0 ] ) {
     moHExtrusion( spec, 0, info = true );
     moTeeExtrusion( spec, 0, info = true );
     moRightAngleExtrusion( spec, 0, info = true );
     moRectangularTube( spec, 0, info = true );
+    moRectangularExtrusion( specRE, 0, info = true );
     moChannelExtrusion( spec, 0, info = true );
   }  
 }
