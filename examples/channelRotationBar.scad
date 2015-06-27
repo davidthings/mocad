@@ -4,6 +4,13 @@ use <../actobotics/actFlatBracketA.scad>
 
 barSpacing = ( ( 2.5 / 2 ) - 0.375 ) * in;
 
+BeamMountDistance = ( 1.405 - ( 1.32 - 1.0607 ) / 2 ) * in;
+
+centerPositions = [ 
+  moIdentityPosition, 
+  [[ 0, 0, BeamMountDistance ], [0, 0, 1], 0 ]
+];
+
 module channelRotationBarSide() {
   actFlatBracketA( info = false );
   moRoll( 2 )
@@ -19,7 +26,7 @@ module channelRotationBar( p = 0, info = false ) {
     if ( info == true ) {
       for ( pi = [ 0 : 2 ] ) {
         for ( pj = [ 0 : ( pi > 0 ) ? 1 : 0 ] ) {
-          for ( pk = [ 0 : ( pi > 0 ) ? 3 : 0  ] ) {
+          for ( pk = [ 0 : ( pi > 0 ) ? 3 : len( centerPositions )  ] ) {
             p = [ pi, pj, pk ];
             moMoveTo( channelRotationBarPosition( p ) )
               moPosition3( p );
@@ -38,7 +45,7 @@ module channelRotationBar( p = 0, info = false ) {
 
 channelRotationBar( 0, info = true, $name = true );
 
-function channelRotationBarPosition( p ) =  ( p[ 0 ] == 0 ) ? moIdentityPosition : 
+function channelRotationBarPosition( p ) =  ( p[ 0 ] == 0 ) ? centerPositions[ p[ 2 ] ] : 
                                                               moMoveToPosition(  ( p[ 0 ] == 1 ) ? [ [ 0, -barSpacing, 0 ], [ 0, 0, 1 ], 180 ] : 
                                                                                                     [ [ 0, barSpacing, 0 ], [ 0, 0, 1 ], 0 ],
                                                                                  actFlatBracketAPosition( [ p[1], ( p[2] > 0 ) ? p[2] + 8 : 0 ] ));

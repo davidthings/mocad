@@ -40,8 +40,8 @@ module selectFasteners() {
 }
 
 module selectRaw() {
-  spec = [ 2 * in, 0.25*in, 0.25*in, 0.06*in, 0.5 * in ];
-  specRE = [ 2 * in, 0.25*in, 0.06*in, 0.5 * in ];
+  spec = [ 2 * in, 0.5*in, 0.5*in, 0.06*in, 0.5 * in ];
+  specRE = [ 2 * in, 0.5*in, 0.06*in, 0.5 * in ];
   moGridParts( [ 0, 0, 0], [ 3 * in, 0, 0 ] ) {
     moHExtrusion( spec, 0, info = true );
     moTeeExtrusion( spec, 0, info = true );
