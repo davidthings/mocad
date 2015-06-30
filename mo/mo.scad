@@ -35,6 +35,12 @@ Red = [ 1, 0 ,0 ];
 Blue = [ 0, 0 ,1 ];
 Green = [ 0, 1 ,0 ];
 
+Orange = [ 1, 0.5, 0 ];
+Charcoal = [ 0.2, 0.2, 0.2 ];
+LightGray = [ 0.85, 0.85, 0.85 ];
+Gray = [ 0.5, 0.5, 0.5 ];
+
+
 //
 //  Public Interface
 //
@@ -183,7 +189,7 @@ module moPartOrigin( ) {
 }
 
 StaggerAngle = -35;
-module moGridParts( origin = [ 0, 0, 0 ], deltas = [ 50, 0, 0 ], rotate = 1 ) {
+module moGridParts( origin = [ 0, 0, 0 ], deltas = [ 50, 0, 0 ], rotate = 0 ) {
   for (i = [0 : $children-1])
       translate( origin - ( $children * deltas / 2 ) + deltas * i )
         rotate( [ 0, 0, rotate * ( 360 * $t + StaggerAngle ) ] )

@@ -11,7 +11,7 @@ blockThickness = 0.05 * in;
 //sphereRadius = .15 * in;
 //sphereOffset = sphereRadius + 8.9 * blockSize;
 
-sphereOffset = 9.15 * blockSize;
+sphereOffset = 5.65 * blockSize;
 
 
 //sphereRadius = .25 * in;
@@ -49,7 +49,7 @@ sphereColor = [ 0.8, 0.6, 0.0 ];
 
 
 module moLogo() {
-  moPose( [ 0, 0, 0 ], t = [ 0 * blockSize, 0, -blockSize * 1.75] ) {
+  moPose( [ 0, 0, 0 ], t = [ -3.5 * blockSize, 0, -blockSize * 1.75] ) {
     f  = "Liberation Sans:style=Bold";
     color( mColor ) { // [ 1, 1, 1 ] ) {
       moPose( [ 90, 0, 0 ], [-8 * blockSize, 0, -blockSize/2] )
@@ -101,4 +101,10 @@ module moLogo() {
   //
 }
 
+function moLogoDimensions() = [ 22 * blockSize, 0.3 * in, 0.75 * in ];
+
 moLogo( $name = true );
+
+//moPartOrigin();
+//#cube( moLogoDimensions(), center = true );
+
