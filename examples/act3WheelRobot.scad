@@ -117,11 +117,11 @@ module act3WheelBot() {
   moAttach( swivel, swivelBase, castorJoint )
     act3WheelCastor();
 
-  driveChannelLeft = actAluminumChannel12Position( [ 14, 2, 0 ] );
+  driveChannelLeft = actAluminumChannel12Position( [ 14, 2, 25 ] );
   moAttach( driveChannel, driveChannelLeft, moFlipPosition )
     act3WheelDriveMotor( left = true );
 
-  driveChannelRight = actAluminumChannel12Position( [ 0, 2, 0 ] );
+  driveChannelRight = actAluminumChannel12Position( [ 0, 2, 6] );
   moAttach( driveChannel, driveChannelRight, moFlipPosition )
     act3WheelDriveMotor( left = false );
 
