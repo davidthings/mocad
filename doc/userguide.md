@@ -107,7 +107,7 @@ actAluminumChannel3_0( );
 // Attach the flipped child part (the clamp) by the specified position on the clamp,
 // to the specified position on the channel which is at the origin.
 moAttach( 0,                                               // origin
-          actAluminumChannel3_0Position( [ 2, 2, 0 ] ),    // position on channel
+          actAluminumChannel3_0Position( [ 2, 2, 25 ] ),    // position on channel
           moFlipPosition,                                  // flip the part
           actMotorMountClamping37Position( 3 ) )           // position on the clamp
   actMotorMountClamping37(  );
