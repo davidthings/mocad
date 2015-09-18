@@ -9,12 +9,12 @@ WorkspaceThickness = 0.25 * in;
 
 Example();
 
-module Workspace( steps = 4, size = WorkspaceSize, spacing = WorkspaceSpacing, name = "" ) {
+module Workspace( steps = 4, size = WorkspaceSize, spacing = WorkspaceSpacing, name = "", height = 0.5 * in ) {
   length = steps * ( size + spacing ) + spacing;
   logoDimensions = moLogoDimensions();
   translate( [ 0, (length - size )/2, -size / 2 ] ) {
-    translate( [ -size / 2 - spacing - logoDimensions[ 2 ], 0,  ( logoDimensions[1] + WorkspaceThickness ) / 2 ] ) 
-      scale( [ 1, 1, 1 ] )
+    translate( [ -size / 2 - spacing - logoDimensions[ 2 ], 0,  5 * ( logoDimensions[1] + WorkspaceThickness )  ] )
+      scale( [ height / ( 0.5 * in ),  height / ( 0.5 * in ),  height / ( 0.5 * in ) ] )
         rotate( [ -90, 0, 90  ] ) {
           moLogo();
             translate( [ 0, logoDimensions[ 1 ], 0.05 * in  ] )
@@ -24,21 +24,21 @@ module Workspace( steps = 4, size = WorkspaceSize, spacing = WorkspaceSpacing, n
         }
 
     color( LightGray )
-      cube( [ size + 2 * spacing, length, WorkspaceThickness ], center = true ); 
+      cube( [ size + 2 * spacing, length, WorkspaceThickness ], center = true );
     translate( [ size/2 + spacing * 2, 0, 0 ] )
       rotate( [ -65, 0 , 90 ] )
-        moLabel( len( name ) > 0 ? name : parent_module(2), tileColor = White );
+        moLabel( len( name ) > 0 ? name : parent_module(2), tileColor = White, lh = height );
   }
 }
 
-module Step( d, size = WorkspaceSize, spacing = WorkspaceSpacing, name = "", height = -1 ) {
+module Step( d, size = WorkspaceSize, spacing = WorkspaceSpacing, name = "", height = -1, labelHeight = 1 * in ) {
   height = ( height == -1 ) ? size/2 : height;
   translate( [ 0, ( d - 1 ) * ( size + spacing ) + spacing, 0 ] ) {
     translate( [ 0, 0, -size/2 + height/2 ] )
       children();
     translate( [ size/2, 0, -(size - 2 * spacing) / 2  ] )
       rotate( [ -85, 0 , 90 ] )
-        moLabel( str( "Step ", d, " ", name ), lh = 0.5 * in, tileColor = White );
+        moLabel( str( "Step ", d, " ", name ), lh = labelHeight, tileColor = White );
   }
 }
 
@@ -77,7 +77,7 @@ module Example( ) {
     moGridParts() {
       SplitMarker( Black, 0 );
       SplitMarker( Red, 1 );
-      SplitMarker( Orange, 2 ); 
+      SplitMarker( Orange, 2 );
       union(){
         SplitMarker( Red, 1 );
         SplitMarker( Orange, 2 );
@@ -103,9 +103,9 @@ bodyPositions = [
 
 function bodyPosition( p = 0 ) = bodyPositions[ p ];
 
-module bodyComplete(  p = 0, info = false  ) { 
+module bodyComplete(  p = 0, info = false  ) {
   moPresent( bodyPositions, p, info ) {
-    translate( [ 0, bodyH/2, 0 ] ) { 
+    translate( [ 0, bodyH/2, 0 ] ) {
       rotate( [ -90, 0, 0 ] ) {
         color( Gray )
           cube( [ bodyW, bodyW, bodyH ], center = true );
@@ -118,10 +118,10 @@ actuatorSegmentWidth = 1.5;
 actuatorSegmentLength = 8;
 
 module actuatorSegment( ) {
-  color( Gray ) 
+  color( Gray )
     sphere( d=actuatorSegmentWidth, center = true );
     translate( [ 0, actuatorSegmentLength / 2, 0 ] ) {
-      color( Gray ) 
+      color( Gray )
         cube( [ actuatorSegmentWidth, actuatorSegmentLength - actuatorSegmentWidth, actuatorSegmentWidth ], center = true );
     }
 }
@@ -138,10 +138,10 @@ legSegmentLength = 20;
 legSegmentWidth = 2;
 
 module legSegment( ) {
-  color( Gray ) 
+  color( Gray )
     sphere( d=legSegmentWidth, center = true );
     translate( [ 0, legSegmentLength / 2, 0 ] ) {
-      color( LightGray ) 
+      color( LightGray )
         cube( [ legSegmentWidth, legSegmentLength - legSegmentWidth, legSegmentWidth ], center = true );
     }
 }
@@ -155,17 +155,17 @@ function legSegmentPosition( p = 0 ) = legSegmentPositions[ p ];
 
 module legSegmentComplete( p = 0, info = false ) {
   moPresent( legSegmentPositions, p, info ) {
-    color( Gray ) 
+    color( Gray )
       sphere( d=legSegmentWidth, center = true );
       translate( [ 0, legSegmentLength / 2, 0 ] ) {
-        color( LightGray ) 
+        color( LightGray )
           cube( [ legSegmentWidth, legSegmentLength - legSegmentWidth, legSegmentWidth ], center = true );
       }
   }
 }
 
 module leg( hipRotate = 0, legRotate = 0, kneeRotate = 0, actuatorRotate = 0 ) {
-  rotate( [ legRotate, hipRotate, 0  ] ) { 
+  rotate( [ legRotate, hipRotate, 0  ] ) {
     legSegment();
     legSegmentPosition1 = legSegmentPosition( 1 );
     moMoveTo( moMoveToPositions( [legSegmentPosition1, moFlipPosition ] ) )  {
@@ -185,18 +185,18 @@ module leg( hipRotate = 0, legRotate = 0, kneeRotate = 0, actuatorRotate = 0 ) {
 
 module Walker() {
   Workspace();
-  
+
   Step( 1 ) {
     robotPosition = [ [ 0, 0, -10 ], [1, 0, 0 ], -90 ];
- 
+
     hipA = moSuperSmoothAnimationCycle( 0, 0.85, 50 );
     hipB = moSuperSmoothAnimationCycle( 0, 0.85, 50 );
 
     legA = moSuperSmoothAnimationCycle( 0.25, 0.5, 10 );
-    
+
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( -25-hipA, -135 -legA, 90, -90  );
@@ -210,7 +210,7 @@ module Walker() {
           leg( 120 + hipA, -90, 90 );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( 220 - hipB, -90, 90  );
         }
     }
@@ -219,16 +219,16 @@ module Walker() {
 
   Step( 2 ) {
     robotPosition = [ [ 0, 0, 0 ], [1, 0, 0 ], -90 ];
- 
+
     hipA = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
     hipB = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
 
     legA = moSuperSmoothAnimationCycle( 0.25, 0.5, 10 );
-    
+
     moPitch(  )
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( hipA, -90 -legA, 90  );
@@ -242,24 +242,24 @@ module Walker() {
           leg( 10, -90 + hipA, -90 +hipA );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( -10, -90, -90  );
         }
     }
-  }  
-  
+  }
+
   Step( 3 ) {
     robotPosition = [ [ 0, 20, 0 ], [1, 0, 0 ], -90 ];
- 
+
     hipA = moSuperSmoothAnimationCycle( 0, 0.85, 30 );
     hipB = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
 
     legA = moSuperSmoothAnimationCycle( 0.25, 0.5, 10 );
-    
+
     moPitch(  )
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( hipA, -135 -legA, 35, -90  );
@@ -273,7 +273,7 @@ module Walker() {
           leg( 10, -90 + hipA, -90 +hipA );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( -10, -90 - hipA, -90 - hipA  );
         }
     }
@@ -281,15 +281,15 @@ module Walker() {
 
   Step( 4 ) {
     robotPosition = [ [ 0, 0, 0 ], [1, 0, 0 ], -90 ];
- 
+
     hipA = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
     hipB = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
 
     legA = moSuperSmoothAnimationCycle( 0.25, 0.5, 10 );
-    
+
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( hipA, 0 -legA, -90  );
@@ -303,23 +303,23 @@ module Walker() {
           leg( 180 + hipA, 0, -90 );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( 180 - hipB, -15, -90  );
         }
     }
   }
-  
+
   Step( 5 ) {
     robotPosition = [ [ 0, 0, -20 ], [1, 0, 0 ], -90 ];
- 
+
     hipA = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
     hipB = moSuperSmoothAnimationCycle( 0, 0.85, 10 );
 
     legA = moSuperSmoothAnimationCycle( 0.25, 0.5, 10 );
-    
+
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( hipA, -135 -legA, 90, -45  );
@@ -333,7 +333,7 @@ module Walker() {
           leg( 180 + hipA, -135, 90, -45 );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( 180 - hipB, -135, 90, -45  );
         }
     }
@@ -341,15 +341,15 @@ module Walker() {
 
   Step( 6 ) {
     robotPosition = [ [ 0, 0, 20 ], [1, 0, 0 ], -90 ];
- 
+
     stepA = moSuperSmoothAnimationCycle( 0, 0.25, 20 );
     stepB = moSuperSmoothAnimationCycle( 0.25, 0.5, 20 );
     stepC = moSuperSmoothAnimationCycle( 0.5, 0.75, 20 );
     stepD = moSuperSmoothAnimationCycle( 0.75, 1, 20 );
-    
+
     moMoveTo( robotPosition ) {
       bodyComplete();
-      
+
       moMoveTo( bodyPosition( 1 ) )
         moMoveTo( moFlipPosition )
           leg( 0, stepA, -stepA/2, 4*stepA  );
@@ -363,15 +363,13 @@ module Walker() {
           leg( 180, stepC, -stepC/2, 4*stepC );
 
       moMoveTo( bodyPosition( 4 ) )
-        moMoveTo( moFlipPosition ) {          
+        moMoveTo( moFlipPosition ) {
           leg( 180, -stepD, stepD/2, -4*stepD  );
         }
     }
   }
 
-  
-} // Chapter 
+
+} // Chapter
 
 */
-
-
