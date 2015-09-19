@@ -362,7 +362,7 @@ module moLabel( text = "", lh = 1 * in, ld =  0.1 * in, textColor = [ 0.5, 0.5, 
           scale( [ 1, 1, 0.1 ] )
             if ( moText )
               text( text, font = "Liberation Mono", size = lh, s = ld * 10, halign="center" );
-            else
-              ;
+           // else
+            //  ;
 
 }
