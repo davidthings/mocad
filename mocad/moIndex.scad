@@ -1,6 +1,5 @@
 // All files referenced by the path up and then back down so they may be easily copied
 
-
 use <../mocad/moLogo.scad>
 use <../mocad/moShaft.scad>
 use <../mocad/moSpacer.scad>
@@ -13,10 +12,14 @@ use <../mocad/moBattery12V7AhLiFePO4.scad>
 use <../mocad/moHExtrusion.scad>
 use <../mocad/moTeeExtrusion.scad>
 use <../mocad/moChannelExtrusion.scad>
+use <../mocad/moTube.scad>
 use <../mocad/moRectangularTube.scad>
 use <../mocad/moRectangularExtrusion.scad>
 use <../mocad/moRightAngleExtrusion.scad>
-
+use <../mocad/moMicroUSB.scad>
+use <../mocad/moRJ45Socket.scad>
+use <../mocad/moRJ45SocketSmall.scad>
+use <../mocad/moTubeFitting.scad>
 
 include <../mo/mo.scad>
 
@@ -28,6 +31,7 @@ module moIndex() {
   moGridParts( [ 0, 0, 0], [ 0, 5 * in, 0 ], rotate = 0 ) {
     selectFasteners();
     selectRaw();
+    selectElectronics();
     selectOther();
   }
 }
@@ -42,13 +46,16 @@ module selectFasteners() {
 module selectRaw() {
   spec = [ 2 * in, 0.5*in, 0.5*in, 0.06*in, 0.5 * in ];
   specRE = [ 2 * in, 0.5*in, 0.06*in, 0.5 * in ];
+  specT = [ 2 * in, 0.25*in, 0.06*in, 0.5 * in ];
   moGridParts( [ 0, 0, 0], [ 3 * in, 0, 0 ] ) {
     moHExtrusion( spec, 0, info = true );
     moTeeExtrusion( spec, 0, info = true );
     moRightAngleExtrusion( spec, 0, info = true );
+    moTube( specT, 0, info = true );
     moRectangularTube( spec, 0, info = true );
     moRectangularExtrusion( specRE, 0, info = true );
     moChannelExtrusion( spec, 0, info = true );
+    moTubeFitting( info = true );
   }  
 }
 
@@ -59,6 +66,14 @@ module selectOther( ) {
     moPipeline( );
     moPipelinePoints();
     moGrid( info = true );
+  }
+}
+
+module selectElectronics( ) {
+  moGridParts( [ 0, 0, 0], [ 4 * in, 0, 0 ] ) {
+    moMicroUSB( );
+    moRJ45Socket();
+    moRJ45SocketSmall();
     moPCB( );
     moPCBPins(  );
     moPCBSIPMolding( );

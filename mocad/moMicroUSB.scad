@@ -16,10 +16,14 @@ module moMicroUSB( p = 0, info = false, name = false ) {
       color( Aluminum ) {
         difference() {
           cube( [ moMicroUSB_Width, moMicroUSB_Height, moMicroUSB_Depth ], center = true );
-          translate( [ 0, -2 * moMicroUSB_Wall, 0 ] )
-          cube( [ moMicroUSB_Width - 2 * moMicroUSB_Wall, 
+          translate( [ 0, -2 * moMicroUSB_Wall, -moMicroUSB_Wall/ 2] )
+            cube( [ moMicroUSB_Width - 4 * moMicroUSB_Wall, 
                   moMicroUSB_Height - 2 * moMicroUSB_Wall, 
-                  moMicroUSB_Depth - 2 * moMicroUSB_Wall ], center = true );
+                  ( moMicroUSB_Depth - 2 * moMicroUSB_Wall ) / 2 ], center = true );
+          translate( [ 0, -2 * moMicroUSB_Wall, moMicroUSB_Wall / 2 ] )
+            cube( [ moMicroUSB_Width - 2 * moMicroUSB_Wall, 
+                  moMicroUSB_Height - 2 * moMicroUSB_Wall, 
+                  ( moMicroUSB_Depth - 2 * moMicroUSB_Wall ) / 2 ], center = true );
         
         }
       }
