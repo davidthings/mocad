@@ -3,7 +3,7 @@ include <../mo/mo.scad>
 // Spec needs to be an array of orientations and offsets, that will also become some of the positions.
 // spec = [
 //          [ [ location ], [ rotation_vector ], rotation_angle ], // first one is the part reference point
-//          [ [ location ], [ rotation_vector ], rotation_angle, diameter, depth ],
+//          [ [ location ], [ rotation_vector ], rotation_angle, diameter, depth, wall ],
 //          ...
 
 TubeFittingWall = 0.1 * in;
@@ -11,31 +11,32 @@ TubeFittingDiameter = 0.25 * in;
 TubeFittingDistance  = TubeFittingDiameter / 2 + TubeFittingWall;
 TubeFittingSocketLength = 0.5 * in;
 
+TubeFittingScrewWall = 0.05 * in;
 TubeFittingScrewDiameter = 0.125 * in;
-TubeFittingScrewSocketLength = TubeFittingDistance / 2;
+TubeFittingScrewSocketLength = TubeFittingDistance;
 
 TubeFittingDefaultSpec = [
   [ [ -TubeFittingDistance, TubeFittingDistance, TubeFittingDistance ], [ 0, 0, 1 ], 180  ],
-  [ [ 0, -0.125 * in, 0 ], [ 1, 0, 0 ], 0, TubeFittingDiameter,  TubeFittingSocketLength ],
-  [ [ 0.125 * in, 0, 0 ], [ 0, 0, 1 ], 90, TubeFittingDiameter, TubeFittingSocketLength ],
-  [ [ 0, 0, -0.125 * in ], [ 1, 0, 0 ], 90, TubeFittingDiameter, TubeFittingSocketLength ],
+  [ [ 0, -0.1 * in, 0 ], [ 1, 0, 0 ], 0, TubeFittingDiameter,  TubeFittingSocketLength, TubeFittingWall ],
+  [ [ 0.1 * in, 0, 0 ], [ 0, 0, 1 ], 90, TubeFittingDiameter, TubeFittingSocketLength, TubeFittingWall ],
+  [ [ 0, 0, -0.1 * in ], [ 1, 0, 0 ], 90, TubeFittingDiameter, TubeFittingSocketLength, TubeFittingWall ],
 
-  [ [ 0, TubeFittingDistance/2, 0 ], [ 0, 0, 1 ], 180, TubeFittingScrewDiameter,  TubeFittingScrewSocketLength ],
-  [ [ -TubeFittingDistance/2, 0, 0 ], [ 0, 0, 1 ], -90, TubeFittingScrewDiameter, TubeFittingScrewSocketLength ],
-  [ [ 0, 0, TubeFittingDistance/2 ], [ 1, 0, 0 ], -90, TubeFittingScrewDiameter, TubeFittingScrewSocketLength ]
+  [ [ 0, 0, 0 ], [ 0, 0, 1 ], 180, TubeFittingScrewDiameter,  TubeFittingScrewSocketLength, TubeFittingScrewWall ],
+  [ [ 0, 0, 0 ], [ 0, 0, 1 ], -90, TubeFittingScrewDiameter, TubeFittingScrewSocketLength, TubeFittingScrewWall ],
+  [ [ 0, 0, 0 ], [ 1, 0, 0 ], -90, TubeFittingScrewDiameter, TubeFittingScrewSocketLength, TubeFittingScrewWall ]
 
 ];
 
-module moTubeFittingSolidCore( spec, wall  ) {
+module moTubeFittingSolidCore( spec  ) {
   for ( i = [ 1 : len( spec ) - 1 ] ) {
     moMoveTo( spec[ i ] )
       rotate( [ 90, 0, 0 ] )
         translate( [ 0, 0, spec[ i ][ 4 ] / 2 ] )
-          cylinder( h = spec[ i ][ 4 ], d = spec[ i ][ 3 ] + 2 * wall, center = true );
+          cylinder( h = spec[ i ][ 4 ], d = spec[ i ][ 3 ] + 2 * spec[ i ][ 5 ], center = true );
   }
 }
 
-module moTubeFitting( p = [ 0, 0 ], spec = TubeFittingDefaultSpec, doHull = true, wall = TubeFittingWall, info = false ) {
+module moTubeFitting( p = [ 0, 0 ], spec = TubeFittingDefaultSpec, doHull = true, info = false ) {
     // move the part per the first parameter spec
     moMoveOriginTo( moTubeFittingPosition( p, spec ) ) {
 
@@ -45,9 +46,9 @@ module moTubeFitting( p = [ 0, 0 ], spec = TubeFittingDefaultSpec, doHull = true
           color( BlackDelrin ) {
             if ( doHull ) {
               hull()
-                moTubeFittingSolidCore( spec, wall );            
+                moTubeFittingSolidCore( spec );            
             } else 
-                moTubeFittingSolidCore( spec, wall );                          
+                moTubeFittingSolidCore( spec );                          
           }
           color( BlackDelrin ) {
               for ( i = [ 1 : len( spec ) - 1 ] ) {
@@ -97,13 +98,13 @@ TubeFittingDemoScrewSocketLength = TubeFittingDistance * 1.25;
 
 TubeFittingDemoSpec = [
   [ [ -TubeFittingDistance, TubeFittingDistance, TubeFittingDistance ], [ 0, 0, 1 ], 180  ],
-  [ [ 0, 0, 0 ], [ 1, 0, 0 ], 0, TubeFittingDiameter,  TubeFittingSocketLength ],
-  [ [ 0, 0, 0 ], [ 0, 0, 1 ], 60, TubeFittingDiameter, TubeFittingSocketLength ],
-  [ [ 0, 0, 0 ], [ 1, 0, 0 ], 60, TubeFittingDiameter, TubeFittingSocketLength ],
+  [ [ 0, 0, 0 ], [ 1, 0, 0 ], 0, TubeFittingDiameter,  TubeFittingSocketLength, TubeFittingWall ],
+  [ [ 0, 0, 0 ], [ 0, 0, 1 ], 60, TubeFittingDiameter, TubeFittingSocketLength, TubeFittingWall ],
+  [ [ 0, 0, 0 ], [ 1, 0, 0 ], 60, TubeFittingDiameter, TubeFittingSocketLength, TubeFittingWall ],
 
-  [ [ 0, 0, 0 ], [ 0, 0, 1 ], 180, TubeFittingScrewDiameter,  TubeFittingDemoScrewSocketLength ],
-  [ [ 0, 0, 0 ], [ 0, 0, 1 ], -120, TubeFittingScrewDiameter, TubeFittingDemoScrewSocketLength ],
-  [ [ 0, 0, 0 ], [ 1, 0, 0 ], -120, TubeFittingScrewDiameter, TubeFittingDemoScrewSocketLength ]
+  [ [ 0, 0, 0 ], [ 0, 0, 1 ], 180, TubeFittingScrewDiameter,  TubeFittingDemoScrewSocketLength, TubeFittingScrewWall  ],
+  [ [ 0, 0, 0 ], [ 0, 0, 1 ], -120, TubeFittingScrewDiameter, TubeFittingDemoScrewSocketLength, TubeFittingScrewWall  ],
+  [ [ 0, 0, 0 ], [ 1, 0, 0 ], -120, TubeFittingScrewDiameter, TubeFittingDemoScrewSocketLength, TubeFittingScrewWall  ]
 
 ];
  
