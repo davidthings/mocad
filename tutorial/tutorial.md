@@ -1319,7 +1319,7 @@ Below you can see the camera invocation has the desired position number passed i
 
 However the part still needs to be flipped.
 
-````
+```
 robotPosition = [ [ 0, 0, 0 ], [0.707, 0, 0.707 ], -90 ];
 
 moMoveTo( robotPosition ) {
